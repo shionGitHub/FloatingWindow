@@ -1,4 +1,4 @@
-# 悬浮窗权限总结
+# 悬浮窗和自启动权限总结
 
     public class FloatWindowManager {
 
