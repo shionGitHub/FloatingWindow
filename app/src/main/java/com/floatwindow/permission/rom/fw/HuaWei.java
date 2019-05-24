@@ -10,6 +10,33 @@ import android.provider.Settings;
 //华为手机悬浮窗
 public class HuaWei extends Rom {
 
+    @Override
+    public void openAutoStartSetting(Context context) {
+
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setComponent(new ComponentName("com.huawei.systemmanager",
+                "com.huawei.systemmanager.startupmgr.ui.StartupNormalAppListActivity"));
+
+        if (isIntentAvailable(intent, context)) {
+            context.startActivity(intent);
+            return;
+        }
+
+        intent.setComponent(new ComponentName("com.huawei.systemmanager",
+                "com.huawei.systemmanager.optimize.bootstart.BootStartActivity"));
+        if (isIntentAvailable(intent, context)) {
+            context.startActivity(intent);
+            return;
+        }
+
+        intent.setComponent(new ComponentName("com.huawei.systemmanager",
+                "com.huawei.systemmanager.appcontrol.activity.StartupAppControlActivity"));
+        if (isIntentAvailable(intent, context)) {
+            context.startActivity(intent);
+        }
+
+    }
 
     @Override
     protected void applyFloatingWindowPermission_6_0(Context context) {

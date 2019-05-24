@@ -1,11 +1,51 @@
 package com.floatwindow.permission.rom.fw;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 
 public class Vivo extends Rom {
+
+
+    @Override
+    public void openAutoStartSetting(Context context) {
+        Intent intent = new Intent();
+        if ((Build.MODEL.contains("X9")
+                || Build.MODEL.contains("x9"))
+                && Build.VERSION.SDK_INT < 25) {
+            try {
+                intent.setComponent(new ComponentName(
+                        "com.iqoo.secure",
+                        "com.iqoo.secure.safeguard.PurviewTabActivity"));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            intent.setComponent(new ComponentName(
+                    "com.iqoo.secure",
+                    "com.iqoo.secure.MainActivity"));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        } catch (Exception e2) {
+            try {
+                intent.setComponent(new ComponentName(
+                        "com.vivo.permissionmanager",
+                        "com.vivo.permissionmanager.activity.PurviewTabActivity"));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            } catch (Exception e3) {
+                e3.printStackTrace();
+            }
+        }
+
+
+    }
 
     @Override
     public boolean checkFloatingWindowPermission(Context context) {

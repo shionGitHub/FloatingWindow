@@ -10,6 +10,23 @@ import android.util.Log;
 public class XiaoMi extends Rom {
 
     @Override
+    public void openAutoStartSetting(Context context) {
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setClassName("com.miui.securitycenter",
+                "com.miui.permcenter.autostart.AutoStartManagementActivity");
+        if (isIntentAvailable(intent, context)) {
+            context.startActivity(intent);
+            return;
+        }
+
+        intent.setClassName("com.android.settings", "com.android.settings.MiuiSettings");
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+
+    }
+
+    @Override
     protected void applyFloatingWindowPermission_4_4(Context context) {
         int versionCode = getMIUIVersion();
         if (versionCode == 5) {

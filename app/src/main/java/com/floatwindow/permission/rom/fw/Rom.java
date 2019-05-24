@@ -4,12 +4,14 @@ import android.annotation.TargetApi;
 import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -107,8 +109,25 @@ public class Rom {
         }
 
         PackageManager pm = context.getPackageManager();
-        List<ResolveInfo> list = pm.queryIntentActivities(i, PackageManager.MATCH_DEFAULT_ONLY);
-        return list.size() > 0;
+        //List<ResolveInfo> list = pm.queryIntentActivities(i, PackageManager.MATCH_DEFAULT_ONLY);
+        //if (list.size() == 0) {
+        //    return false;
+        //}
+
+        ActivityInfo activityInfo = i.resolveActivityInfo(pm, i.getFlags());
+        if (activityInfo == null
+                || !activityInfo.exported) {
+            return false;
+        }
+        String permission = activityInfo.permission;
+        if (!TextUtils.isEmpty(permission)) {
+            if (Build.VERSION.SDK_INT >= 23) {
+                if (context.checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     //获取系统属性 系统的版本信息
@@ -135,6 +154,13 @@ public class Rom {
         return line;
     }
 
+
+    //添加开启自启动的方法 ---默认打开设置页面
+    public void openAutoStartSetting(Context context) {
+        Intent i = new Intent(Settings.ACTION_SETTINGS);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(i);
+    }
 
     public static boolean isHuaWei() {
         String manufacturer = Build.MANUFACTURER.toLowerCase();
@@ -177,5 +203,42 @@ public class Rom {
         String manufacturer = Build.MANUFACTURER.toLowerCase();
         return manufacturer.contains("xiaolajiao");
     }
+
+    //检测是三星手机
+    public static boolean isSamsung() {
+        String manufacturer = Build.MANUFACTURER.toLowerCase();
+        return manufacturer.contains("samsung");
+    }
+
+    //检测是金立手机
+    public static boolean isGionee() {
+        String manufacturer = Build.MANUFACTURER.toLowerCase();
+        return manufacturer.contains("gionee");
+    }
+
+    //检测是联想手机
+    public static boolean isLenvor() {
+        String manufacturer = Build.MANUFACTURER.toLowerCase();
+        return manufacturer.contains("gionee");
+    }
+
+    //检测是联想手机
+    public static boolean isLetv() {
+        String manufacturer = Build.MANUFACTURER.toLowerCase();
+        return manufacturer.contains("letv");
+    }
+
+    //检测是锤子手机
+    public static boolean isSmartisan() {
+        String manufacturer = Build.MANUFACTURER.toLowerCase();
+        return manufacturer.contains("smartisan");
+    }
+
+    //检测是中兴手机
+    public static boolean isZTE() {
+        String manufacturer = Build.MANUFACTURER.toLowerCase();
+        return manufacturer.contains("zte");
+    }
+
 
 }
