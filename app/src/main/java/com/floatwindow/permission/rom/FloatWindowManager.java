@@ -9,6 +9,7 @@ import com.floatwindow.permission.rom.fw.Qiku;
 import com.floatwindow.permission.rom.fw.Rom;
 import com.floatwindow.permission.rom.fw.Vivo;
 import com.floatwindow.permission.rom.fw.XiaoMi;
+import com.floatwindow.permission.rom.fw.Xiaolajiao;
 
 //悬浮窗管理工具
 public class FloatWindowManager {
@@ -40,6 +41,9 @@ public class FloatWindowManager {
         else if (Rom.isVivo()) {
             rom = new Vivo();
         }
+        else if (Rom.isXiaolajiao()) {
+            rom = new Xiaolajiao();
+        }
         return rom.checkFloatingWindowPermission(context);
 
     }
@@ -64,6 +68,9 @@ public class FloatWindowManager {
         }
         else if (Rom.isVivo()) {
             rom = new Vivo();
+        }
+        else if (Rom.isXiaolajiao()) {
+            rom = new Xiaolajiao();
         }
         rom.applyFloatingWindowPermission(context);
 

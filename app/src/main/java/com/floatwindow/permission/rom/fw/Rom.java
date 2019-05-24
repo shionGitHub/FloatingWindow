@@ -172,5 +172,10 @@ public class Rom {
         return manufacturer.contains("vivo");
     }
 
+    //检测是否是小辣椒
+    public static boolean isXiaolajiao() {
+        String manufacturer = Build.MANUFACTURER.toLowerCase();
+        return manufacturer.contains("xiaolajiao");
+    }
 
 }
