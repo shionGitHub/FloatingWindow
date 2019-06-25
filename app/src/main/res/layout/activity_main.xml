@@ -26,6 +26,12 @@
             android:text="自启动"
             android:textAllCaps="false" />
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="setWallpaper"
+            android:text="设置动态壁纸"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 

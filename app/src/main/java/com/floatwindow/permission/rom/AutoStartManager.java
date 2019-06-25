@@ -15,7 +15,10 @@ import com.floatwindow.permission.rom.fw.Qiku;
 import com.floatwindow.permission.rom.fw.Rom;
 import com.floatwindow.permission.rom.fw.Samsung;
 import com.floatwindow.permission.rom.fw.Smartisan;
+import com.floatwindow.permission.rom.fw.Vivo;
 import com.floatwindow.permission.rom.fw.XiaoMi;
+import com.floatwindow.permission.rom.fw.Xiaolajiao;
+import com.floatwindow.permission.rom.fw.ZTE;
 
 //开启自启动管理类
 public class AutoStartManager {
@@ -61,16 +64,16 @@ public class AutoStartManager {
             rom = new Smartisan();
         }
         else if (Rom.isVivo()) {
-            rom = new XiaoMi();
+            rom = new Vivo();
         }
         else if (Rom.isXiaolajiao()) {
-            rom = new XiaoMi();
+            rom = new Xiaolajiao();
         }
         else if (Rom.isXiaoMi()) {
             rom = new XiaoMi();
         }
         else if (Rom.isZTE()) {
-            rom = new XiaoMi();
+            rom = new ZTE();
         }
 
         if (rom == null) {

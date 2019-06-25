@@ -2,11 +2,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.floatwindow.permission">
 
+
     <!-- 自启动 -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- 悬浮窗 -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
+
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <uses-feature
+        android:name="android.software.live_wallpaper"
+        android:required="true" />
+
 
     <application
         android:allowBackup="true"
@@ -26,9 +36,77 @@
 
         <receiver android:name=".AutoReceiver">
             <intent-filter>
+
+                <!-- 设备开机后 -->
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <!-- 用户登录时，屏幕锁打开之后 -->
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <!-- 网络连接更改时 -->
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <!-- 插入电源时 -->
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <!-- 拨出电源时 -->
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+                <!-- 安装媒体时 -->
+                <action android:name="android.intent.action.MEDIA_MOUNTED" />
+                <!-- 电池电量变化时 -->
+                <action android:name="android.intent.action.BATTERY_CHANGED" />
+                <!-- 新外拨电话时 -->
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+                <!-- 通话状态更改时 -->
+                <action android:name="android.intent.action.PHONE_STATE" />
+                <!-- 语言更改时 -->
+                <action android:name="android.intent.action.LOCALE_CHANGED" />
+                <!-- 日期更改时 -->
+                <action android:name="android.intent.action.DATE_CHANGED" />
+                <!-- 开始媒体扫描时 -->
+                <action android:name="android.intent.action.MEDIA_SCANNER_STARTED" />
+                <!-- 媒体扫描完成时 -->
+                <action android:name="android.intent.action.MEDIA_SCANNER_FINISHED" />
+                <!-- 时区更改时 -->
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <!-- 时间更改时 -->
+                <action android:name="android.intent.action.TIME_SET" />
+                <!-- -打开屏幕时 -->
+                <action android:name="android.intent.action.SCREEN_ON" />
+                <!-- -关闭屏幕时 -->
+                <action android:name="android.intent.action.SCREEN_OFF" />
+
+            </intent-filter>
+
+        </receiver>
+        <receiver android:name=".AppChangeReceiver">
+            <intent-filter>
+
+                <!-- 安装应用时 -->
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <!-- 更新应用时 -->
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                <!-- 卸载应用时 -->
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <!-- 重新启动应用时 -->
+                <action android:name="android.intent.action.PACKAGE_RESTARTED" />
+
+                <!-- 这个必须有 -->
+                <data android:scheme="package" />
             </intent-filter>
         </receiver>
+
+        <service
+            android:name=".service.LiveWallpaperService"
+            android:enabled="true"
+            android:label="动态壁纸"
+            android:permission="android.permission.BIND_WALLPAPER">
+
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/livewallpaper" />
+
+        </service>
 
     </application>
 

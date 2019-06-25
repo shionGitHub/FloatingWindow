@@ -119,34 +119,38 @@ public class Vivo extends Rom {
 
     @Override
     protected void applyFloatingWindowPermission_6_0(Context context) {
+//        if (Build.VERSION.SDK_INT != Build.VERSION_CODES.M) {
+            Intent intent = new Intent();
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setAction("secure.intent.action.softPermissionDetail");
+            intent.setClassName(
+                    "com.iqoo.secure",
+                    "com.iqoo.secure.safeguard.SoftPermissionDetailActivity");
+            intent.putExtra("packagename", context.getPackageName());
+            if (isIntentAvailable(intent, context)) {
+                context.startActivity(intent);
+                return;
+            }
 
-        Intent intent = new Intent();
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setAction("secure.intent.action.softPermissionDetail");
-        intent.setClassName(
-                "com.iqoo.secure",
-                "com.iqoo.secure.safeguard.SoftPermissionDetailActivity");
-        intent.putExtra("packagename", context.getPackageName());
-        if (isIntentAvailable(intent, context)) {
-            context.startActivity(intent);
-            return;
-        }
+            intent = new Intent();
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setAction("permission.intent.action.softPermissionDetail");
+            intent.setClassName(
+                    "com.vivo.permissionmanager",
+                    "com.vivo.permissionmanager.activity.SoftPermissionDetailActivity");
+            intent.putExtra("packagename", context.getPackageName());
+            if (isIntentAvailable(intent, context)) {
+                context.startActivity(intent);
+                return;
+            }
 
-        intent = new Intent();
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setAction("permission.intent.action.softPermissionDetail");
-        intent.setClassName(
-                "com.vivo.permissionmanager",
-                "com.vivo.permissionmanager.activity.SoftPermissionDetailActivity");
-        intent.putExtra("packagename", context.getPackageName());
-        if (isIntentAvailable(intent, context)) {
-            context.startActivity(intent);
-            return;
-        }
-
-        super.applyFloatingWindowPermission_6_0(context);
+            super.applyFloatingWindowPermission_6_0(context);
+//        }
+//        else {
+//            super.applyFloatingWindowPermission_6_0(context);
+//        }
 
     }
 
